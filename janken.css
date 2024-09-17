@@ -1,0 +1,84 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  text-align: center;
+  height: 600px;
+  position: absolute;
+  border-radius: 36px;
+  z-index: 100;
+  backdrop-filter: blur(80px);
+  left: 50vw;
+  transform: translateX(-50%);
+}
+
+.enemy {
+  margin: auto;
+  width: 250px;
+  border-bottom: #000 solid 2px;
+  margin-top: 10px;
+  font-size: 48px;
+  background-color: #fff;
+}
+
+.player {
+  margin: auto;
+  width: 250px;
+  border-bottom: #000 solid 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 48px;
+  background-color: #fff;
+}
+
+.handContainer {
+  width: 192px;
+  height: 70px;
+  margin: 10px auto;
+  border: double #000 4px;
+  line-height: 70px;
+  font-size: 50px;
+  background-color: #fff;
+}
+
+.rock, .scissor, .paper {
+  all: unset;
+  display: inline-block;
+  width: 180px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 36px;
+  box-shadow: 0 6px #333;
+  background-color: #fff;
+}
+
+.rock:active, .scissor:active, .paper:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px #333;
+}
+
+.result {
+  width: 380px;
+  height: 80px;
+  margin: 0 auto;
+  line-height: 80px;
+  text-align: center;
+  background-color: #fff;
+  border: 4px double #000;
+  margin-top: 10px;
+  font-size: 48px;
+}
