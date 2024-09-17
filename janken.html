@@ -4,7 +4,92 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>うじゃんけん</title>
-  <link rel="stylesheet" href="style.css">
+    <style>
+      * {
+  margin: 0;
+  padding: 0;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  text-align: center;
+  height: 600px;
+  position: absolute;
+  border-radius: 36px;
+  z-index: 100;
+  backdrop-filter: blur(80px);
+  left: 50vw;
+  transform: translateX(-50%);
+}
+
+.enemy {
+  margin: auto;
+  width: 250px;
+  border-bottom: #000 solid 2px;
+  margin-top: 10px;
+  font-size: 48px;
+  background-color: #fff;
+}
+
+.player {
+  margin: auto;
+  width: 250px;
+  border-bottom: #000 solid 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 48px;
+  background-color: #fff;
+}
+
+.handContainer {
+  width: 192px;
+  height: 70px;
+  margin: 10px auto;
+  border: double #000 4px;
+  line-height: 70px;
+  font-size: 50px;
+  background-color: #fff;
+}
+
+.rock, .scissor, .paper {
+  all: unset;
+  display: inline-block;
+  width: 180px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 36px;
+  box-shadow: 0 6px #333;
+  background-color: #fff;
+}
+
+.rock:active, .scissor:active, .paper:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px #333;
+}
+
+.result {
+  width: 380px;
+  height: 80px;
+  margin: 0 auto;
+  line-height: 80px;
+  text-align: center;
+  background-color: #fff;
+  border: 4px double #000;
+  margin-top: 10px;
+  font-size: 48px;
+}
+    </style>
   <link rel="shortcut icon" href="img/rock.png" type="image/x-icon">
 </head>
 <body>
@@ -29,6 +114,46 @@
     <p class="result" id="result">result</p>
   </div>
 
-  <script src="index.js" type="text/javascript"></script>
+  <script>
+    const element = name => document.querySelector(name);
+const strings = ['グー', 'チョキ', 'パー'];
+const outcomes = {
+  draw: 'あいこ',
+  win: 'お前の勝ち～',
+  lose: 'お前の負け～'  
+}
+let playersHandNum, botsHandNum;
+const botsHandProcess = () => {
+  botsHandNum = Math.floor(Math.random() * 3);
+  element('#enemyHand').innerText = strings[botsHandNum];
+};
+
+const processHands = (botsHandNum, playersHandNum) => {
+  if (playersHandNum === botsHandNum) return outcomes.draw;
+  else if (
+    (playersHandNum === 0 && botsHandNum === 1) ||
+    (playersHandNum === 1 && botsHandNum === 2) ||
+    (playersHandNum === 2 && botsHandNum === 0)
+  ) return outcomes.win;
+  else return outcomes.lose;
+};
+
+class PlayersHands {
+  constructor(elementName, handNum) {
+    this.elementName = elementName;
+    this.handNum = handNum;
+    element(this.elementName).addEventListener('click', () => {
+      playersHandNum = this.handNum;
+      botsHandProcess();
+      element('#result').innerText = processHands(botsHandNum, playersHandNum)
+      element('#playerHand').innerText = strings[this.handNum];
+    });
+  }
+}
+
+const rock = new PlayersHands('#rock', 0);
+const scissor = new PlayersHands('#scissor', 1);
+const paper = new PlayersHands('#paper', 2);
+  </script>
 </body>
 </html>
