@@ -61,13 +61,13 @@
   cursor: pointer;
   margin: 20px;
   font-size: 36px;
-  box-shadow: 0 6px #333;
+  box-shadow: 0 6px #ccc;
   background-color: #fff;
 }
 
 .rock:active, .scissor:active, .paper:active {
   transform: translateY(4px);
-  box-shadow: 0 2px #333;
+  box-shadow: 0 2px #ccc;
 }
 
 .result {
