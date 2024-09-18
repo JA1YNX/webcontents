@@ -30,6 +30,10 @@
   </div>
 
   <script>
+    document.onselectstart = () => {
+      return null;
+    }
+    
     const element = name => document.querySelector(name);
     const strings = ['グー', 'チョキ', 'パー'];
     const outcomes = {
