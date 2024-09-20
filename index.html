@@ -29,31 +29,31 @@
     <p class="result" id="result">result</p>
   </div>
 
-  <script>
+  <script type="text/javascript">
     document.onselectstart = () => {
-      return null;
+      return false;
     }
-    
+
     const element = name => document.querySelector(name);
     const strings = ['グー', 'チョキ', 'パー'];
     const outcomes = {
       draw: 'あいこ',
       win: 'あなたの勝ち',
-      lose: 'あなたの負け'  
+      lose: 'あなたの負け'
     }
     let playersHandNum, botsHandNum;
     const botsHandProcess = () => {
       botsHandNum = Math.floor(Math.random() * 3);
-      element('#enemyHand').innerText = strings[botsHandNum];
+    element('#enemyHand').innerText = strings[botsHandNum];
     };
 
     const processHands = (botsHandNum, playersHandNum) => {
       if (playersHandNum === botsHandNum) return outcomes.draw;
-        else if (
-          (playersHandNum === 0 && botsHandNum === 1) ||
-          (playersHandNum === 1 && botsHandNum === 2) ||
-          (playersHandNum === 2 && botsHandNum === 0)
-        ) return outcomes.win;
+      else if (
+        (playersHandNum === 0 && botsHandNum === 1) ||
+        (playersHandNum === 1 && botsHandNum === 2) ||
+        (playersHandNum === 2 && botsHandNum === 0)
+      ) return outcomes.win;
       else return outcomes.lose;
     };
 
@@ -73,7 +73,6 @@
     const rock = new PlayersHands('#rock', 0);
     const scissor = new PlayersHands('#scissor', 1);
     const paper = new PlayersHands('#paper', 2);
-  </script type='text/javascript'>
-
+  </script>
 </body>
 </html>
