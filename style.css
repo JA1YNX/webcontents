@@ -54,7 +54,7 @@
   .rock, .scissor, .paper {
     all: unset;
     display: inline-block;
-    width: 180px;
+    width: 25%;
     height: 80px;
     line-height: 80px;
     text-align: center;
