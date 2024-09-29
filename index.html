@@ -3,108 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>janken web</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="img/rock.png" type="image/x-icon">
 </head>
 <body>
-  <div class="rulesText">
-    <h1 class="text">数字あてゲーム</h1>
-    <p class="rule">このゲームは、HTMLとCSS、Javascript等のプログラミング言語を使用して制作した数字あてゲームです。</p><br>
-    <p class="rule">ランダムな1～100の数字を当ててみましょう!</p><br>
-    <p class="rule">数字を入力するとそれよりも正解が大きいか小さいか、もしくは正解かどうかを表示します。</p>
-  </div>
-  <div class="systems">
-    <button id="start" class="start">Start!</button><br>
-    <input type="text" id="guessNum" class="guessBox"><br>
-    <button id="check" class="check" disabled>Check</button>
-    <p id="checkResult"></p>
-    <p id="remainingGuesses"></p>
+  <img src="img/image.png" alt="背景画像くん" class="background-image">
+
+  <div class="container">
+    <!--相手側のスペース-->
+    <p class="enemy">相手</p>
+    <div id="handContainer" class="handContainer">
+      <p id="enemyHand">hand</p>
+    </div>
+    <!--プレイヤー側のスペース-->
+    <div class="handContainer">
+      <p id ="playerHand">hand</p>
+    </div>
+    <p class="player">自分</p>
+
+    <button class="rock" id="rock">グー</button>
+    <button class="scissor" id="scissor">チョキ</button>
+    <button class="paper" id="paper">パー</button>
+
+    <p class="result" id="result">result</p>
   </div>
 
-  <script>
-    'use strict';
-
+  <script type="text/javascript">
     document.onselectstart = () => {
       return false;
     }
 
-    // 宣言シリーズ
-    const start = document.getElementById('start');
-    const guessNum = document.getElementById('guessNum');
-    const check = document.getElementById('check');
-    const checkResult = document.getElementById('checkResult');
-    const remainingGuesses = document.getElementById('remainingGuesses');
+    const element = name => document.querySelector(name);
+    const strings = ['グー', 'チョキ', 'パー'];
+    const outcomes = {
+      draw: 'あいこ',
+      win: 'あなたの勝ち',
+      lose: 'あなたの負け'
+    }
+    let playersHandNum, botsHandNum;
+    const botsHandProcess = () => {
+      botsHandNum = Math.floor(Math.random() * 3);
+      element('#enemyHand').innerText = strings[botsHandNum];
+    };
 
-    let answerNum; // 答えの数字を保持
-    let guessingTimes;  // 試行回数
+    const processHands = (botsHandNum, playersHandNum) => {
+      if (playersHandNum === botsHandNum) return outcomes.draw;
+      else if (
+        (playersHandNum === 0 && botsHandNum === 1) ||
+        (playersHandNum === 1 && botsHandNum === 2) ||
+        (playersHandNum === 2 && botsHandNum === 0)
+      ) return outcomes.win;
+      else return outcomes.lose;
+    };
 
-    const larger = () => {
-      checkResult.textContent = '残念！ 答えはもっと小さな数字です';
+    class PlayersHands {
+      constructor(elementName, handNum) {
+        this.elementName = elementName;
+        this.handNum = handNum;
+        element(this.elementName).addEventListener('click', () => {
+          playersHandNum = this.handNum;
+          botsHandProcess();
+          element('#playerHand').innerText = strings[this.handNum];
+          element('#result').innerText = processHands(botsHandNum, playersHandNum);
+        });
+      }
     }
 
-    const smaller = () => {
-      checkResult.textContent = '残念！ 答えはもっと大きな数字です';
-    }
-
-    const updateRemainingGuesses = () => {
-      remainingGuesses.textContent = `残りの回数: ${6 - guessingTimes} 回`;
-    }
-
-    const resetGame = () => {
-      // 初期化処理
-      guessingTimes = 0;
-      answerNum = Math.floor(Math.random() * 100) + 1; // 1～100のランダムな数字
-      checkResult.textContent = '';
-      guessNum.value = '';
-      updateRemainingGuesses();
-      check.disabled = false;
-    }
-
-    // スタート処理
-    const init = () => {
-      // ゲームを初期化
-      resetGame();
-
-      check.addEventListener('click', () => {
-        let userGuess = parseInt(guessNum.value, 10);
-
-        if (isNaN(userGuess)) {
-          checkResult.textContent = '数字を入力してください';
-          return;
-        }
-
-        guessingTimes++;
-
-        if (userGuess === answerNum) {
-          checkResult.textContent = 'おめでとう！ 正解です';
-          check.disabled = true; // 正解したらチェックボタンを無効化
-          return; // 正解した場合は以降の処理をスキップ
-        } 
-        else if (userGuess < answerNum) {
-          smaller();
-        } 
-        else {
-          larger();
-        }
-
-        if (guessingTimes >= 6) {
-          check.disabled = true;
-          checkResult.textContent += ' ゲームオーバー！ 正解は ' + answerNum + ' でした。';
-        }
-
-        updateRemainingGuesses(); // 残り回数を更新
-      });
-    }
-
-    // 完全実行
-    window.onload = () => {
-      // スタートボタンでゲーム開始
-      start.addEventListener('click', () => {
-        resetGame(); // ゲームをリセット
-        check.disabled = false; // チェックボタンを有効化
-      });
-      init(); // 初期化
-    }
+    const rock = new PlayersHands('#rock', 0);
+    const scissor = new PlayersHands('#scissor', 1);
+    const paper = new PlayersHands('#paper', 2);
   </script>
 </body>
 </html>
